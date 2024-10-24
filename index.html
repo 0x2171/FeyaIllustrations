@@ -215,117 +215,169 @@
             <p>мой ТГ: @Feyyyy999</p>
             <p>Inst: fey.illustration</p>
     </div>
-    <script>
-        const tgwindow = window.Telegram.WebApp;
-        tgwindow.isExpanded;
-        tgwindow.expand();
-        const loadingProgressBar = document.getElementById('loading-progress-bar');
-        const loadingProgressText = document.getElementById('loading-progress-text');
-        let loadingProgress = 0;
-        const loadingInterval = setInterval(() => {
-            loadingProgress += 6;
-            loadingProgressBar.style.width = `${loadingProgress}%`;
-            loadingProgressText.textContent = `${loadingProgress}%`;
-            if (loadingProgress >= 100) {
-                clearInterval(loadingInterval);
-                document.getElementById('loading-screen').style.display = 'none';
-                document.querySelector('.nav-buttons').style.display = 'flex'; /* Показать кнопки навигации после загрузки */
-            }
-        }, 100);
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, getDocs, doc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
-        const navButtons = document.querySelectorAll('.nav-button');
-        navButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                const targetId = event.target.getAttribute('href').substring(1);
-                document.querySelectorAll('.page').forEach(page => {
-                    page.classList.remove('active');
-                });
-                document.getElementById(targetId).classList.add('active');
-            });
-        });
+  const firebaseConfig = {
+    apiKey: "AIzaSyDGccPZxLcBXxof3JwApkzwQktruf88fSg",
+    authDomain: "lilik-combat.firebaseapp.com",
+    databaseURL: "https://lilik-combat-default-rtdb.firebaseio.com",
+    projectId: "lilik-combat",
+    storageBucket: "lilik-combat.appspot.com",
+    messagingSenderId: "656810558139",
+    appId: "1:656810558139:web:4f1ec0de79eb56874adf9e",
+    measurementId: "G-ND1K6WD3Y1"
+  };
 
-        const images = [
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205834_936.jpg', title: 'Мой любимый Феликс❤️' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205843_012.jpg', title: 'Крипипаста🔥' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205847_274.jpg', title: 'Твис🌹' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205856_541.jpg', title: 'Курай' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205307_728.jpg', title: 'Бая' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205903_027.jpg', title: 'Перс от t.me/pitsaspivomeballl' },
-        ];
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-        const imageContainer = document.querySelector('.image-container');
-        const likedImagesContainer = document.querySelector('.liked-images');
+  const tgwindow = window.Telegram.WebApp;
+  tgwindow.isExpanded;
+  tgwindow.expand();
+  const loadingProgressBar = document.getElementById('loading-progress-bar');
+  const loadingProgressText = document.getElementById('loading-progress-text');
+  let loadingProgress = 0;
+  const loadingInterval = setInterval(() => {
+      loadingProgress += 6;
+      loadingProgressBar.style.width = `${loadingProgress}%`;
+      loadingProgressText.textContent = `${loadingProgress}%`;
+      if (loadingProgress >= 100) {
+          clearInterval(loadingInterval);
+          document.getElementById('loading-screen').style.display = 'none';
+          document.querySelector('.nav-buttons').style.display = 'flex'; /* Показать кнопки навигации после загрузки */
+      }
+  }, 100);
 
-        const likedImages = JSON.parse(localStorage.getItem('likedImages')) || {};
+  const navButtons = document.querySelectorAll('.nav-button');
+  navButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+          event.preventDefault();
+          const targetId = event.target.getAttribute('href').substring(1);
+          document.querySelectorAll('.page').forEach(page => {
+              page.classList.remove('active');
+          });
+          document.getElementById(targetId).classList.add('active');
+      });
+  });
 
-        Object.keys(likedImages).forEach(title => {
-            if (likedImages[title]) {
-                const likedImage = document.createElement('div');
-                likedImage.classList.add('liked-image');
-                likedImage.textContent = `${title} - ❤️`;
-                likedImagesContainer.appendChild(likedImage);
-            }
-        });
+  const images = [
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205834_936.jpg', title: 'Мой любимый Феликс❤️' },
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205843_012.jpg', title: 'Крипипаста🔥' },
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205847_274.jpg', title: 'Твис🌹' },
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205856_541.jpg', title: 'Курай' },
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205307_728.jpg', title: 'Бая' },
+      { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205903_027.jpg', title: 'Перс от t.me/pitsaspivomeballl' },
+  ];
 
-        const cachedImages = JSON.parse(localStorage.getItem('cachedImages')) || {};
+  const imageContainer = document.querySelector('.image-container');
+  const likedImagesContainer = document.querySelector('.liked-images');
 
-        images.forEach(image => {
-            const imageItem = document.createElement('div');
-            imageItem.classList.add('image-item');
+  const likedImages = JSON.parse(localStorage.getItem('likedImages')) || {};
+  const likeCounts = JSON.parse(localStorage.getItem('likeCounts')) || {};
 
-            const img = document.createElement('img');
-            img.src = cachedImages[image.url] || image.url;
-            img.alt = image.title;
+  Object.keys(likedImages).forEach(title => {
+      if (likedImages[title]) {
+          const likedImage = document.createElement('div');
+          likedImage.classList.add('liked-image');
+          likedImage.textContent = `${title} - ❤️`;
+          likedImagesContainer.appendChild(likedImage);
+      }
+  });
 
-            if (!cachedImages[image.url]) {
-                fetch(image.url)
-                    .then(response => response.blob())
-                    .then(blob => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => {
-                            cachedImages[image.url] = reader.result;
-                            localStorage.setItem('cachedImages', JSON.stringify(cachedImages));
-                        };
-                        reader.readAsDataURL(blob);
-                    });
-            }
+  const cachedImages = JSON.parse(localStorage.getItem('cachedImages')) || {};
 
-            const title = document.createElement('div');
-            title.classList.add('title');
-            title.textContent = image.title;
+  images.forEach(image => {
+      const imageItem = document.createElement('div');
+      imageItem.classList.add('image-item');
 
-            const likeButton = document.createElement('div');
-            likeButton.classList.add('like-button');
-            likeButton.innerHTML = likedImages[image.title] ? '❤️' : '🤍';
-            likeButton.dataset.liked = likedImages[image.title] ? 'true' : 'false';
-            likeButton.addEventListener('click', () => {
-                const isLiked = likeButton.dataset.liked === 'true';
-                likeButton.dataset.liked = isLiked ? 'false' : 'true';
-                likeButton.innerHTML = isLiked ? '🤍' : '❤️';
+      const img = document.createElement('img');
+      img.src = cachedImages[image.url] || image.url;
+      img.alt = image.title;
 
-                if (!isLiked) {
-                    const likedImage = document.createElement('div');
-                    likedImage.classList.add('liked-image');
-                    likedImage.textContent = `${image.title} - ❤️`;
-                    likedImagesContainer.appendChild(likedImage);
-                } else {
-                    const likedImages = document.querySelectorAll('.liked-image');
-                    likedImages.forEach(likedImage => {
-                        if (likedImage.textContent.includes(image.title)) {
-                            likedImage.remove();
-                        }
-                    });
-                }
-                likedImages[image.title] = !isLiked;
-                localStorage.setItem('likedImages', JSON.stringify(likedImages));
-            });
+      if (!cachedImages[image.url]) {
+          fetch(image.url)
+              .then(response => response.blob())
+              .then(blob => {
+                  const reader = new FileReader();
+                  reader.onloadend = () => {
+                      cachedImages[image.url] = reader.result;
+                      localStorage.setItem('cachedImages', JSON.stringify(cachedImages));
+                  };
+                  reader.readAsDataURL(blob);
+              });
+      }
 
-            imageItem.appendChild(title);
-            imageItem.appendChild(img);
-            imageItem.appendChild(likeButton);
-            imageContainer.appendChild(imageItem);
-        });
-    </script>
+      const title = document.createElement('div');
+      title.classList.add('title');
+      title.textContent = image.title;
+
+      const likeButton = document.createElement('div');
+      likeButton.classList.add('like-button');
+      likeButton.innerHTML = likedImages[image.title] ? '❤️' : '🤍';
+      likeButton.dataset.liked = likedImages[image.title] ? 'true' : 'false';
+      likeButton.addEventListener('click', () => {
+          const isLiked = likeButton.dataset.liked === 'true';
+          likeButton.dataset.liked = isLiked ? 'false' : 'true';
+          likeButton.innerHTML = isLiked ? '🤍' : '❤️';
+
+          if (!isLiked) {
+              const likedImage = document.createElement('div');
+              likedImage.classList.add('liked-image');
+              likedImage.textContent = `${image.title} - ❤️`;
+              likedImagesContainer.appendChild(likedImage);
+          } else {
+              const likedImages = document.querySelectorAll('.liked-image');
+              likedImages.forEach(likedImage => {
+                  if (likedImage.textContent.includes(image.title)) {
+                      likedImage.remove();
+                  }
+              });
+          }
+          likedImages[image.title] = !isLiked;
+          localStorage.setItem('likedImages', JSON.stringify(likedImages));
+
+          // Update like count in Firestore
+          const imageRef = doc(db, 'images', image.title);
+          updateDoc(imageRef, {
+              likes: increment(isLiked ? -1 : 1)
+          });
+
+          // Update like count locally
+          likeCounts[image.title] = likeCounts[image.title] || 0;
+          likeCounts[image.title] += isLiked ? -1 : 1;
+          localStorage.setItem('likeCounts', JSON.stringify(likeCounts));
+          likeCount.textContent = `Likes: ${likeCounts[image.title]}`;
+      });
+
+      const likeCount = document.createElement('div');
+      likeCount.classList.add('like-count');
+      likeCount.textContent = `Likes: ${likeCounts[image.title] || 0}`;
+
+      imageItem.appendChild(title);
+      imageItem.appendChild(img);
+      imageItem.appendChild(likeButton);
+      imageItem.appendChild(likeCount);
+      imageContainer.appendChild(imageItem);
+  });
+
+  // Load like counts from Firestore
+  const loadLikeCounts = async () => {
+      const querySnapshot = await getDocs(collection(db, 'images'));
+      querySnapshot.forEach(doc => {
+          const data = doc.data();
+          likeCounts[doc.id] = data.likes || 0;
+          const likeCountElement = document.querySelector(`.image-item .title[textContent="${doc.id}"] + .like-count`);
+          if (likeCountElement) {
+              likeCountElement.textContent = `Likes: ${data.likes}`;
+          }
+      });
+      localStorage.setItem('likeCounts', JSON.stringify(likeCounts));
+  };
+
+  loadLikeCounts();
+</script>
+
 </body>
 </html>
