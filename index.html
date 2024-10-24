@@ -32,6 +32,7 @@
             display: flex;
             gap: 1px;
             z-index: 1000;
+            display: none;
         }
         .nav-button {
             padding: 4px 20px;
@@ -70,7 +71,7 @@
             align-items: center;
             z-index: 999;
             overflow: hidden;
-            background-image: url('https://raw.githubusercontent.com/0x2171/Lilik-Enchantment/refs/heads/main/images/AppArt.png'),
+            background-image: url('https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_210432_615.jpg'),
                               linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
             background-size: cover;
             background-position: center;
@@ -78,7 +79,7 @@
         }
         #loading-spinner {
           border: 16px solid #e6f2ff;
-          border-top: 16px solid #00bfff;
+          border-top: 16px solid #800080;
           border-radius: 50%;
           width: 120px;
           height: 120px;
@@ -91,14 +92,14 @@
         }
         #loading-text {
           font-size: 24px;
-          color: #ffffff;
+          color: magenta;
           margin-bottom: 10px;
           animation: loadingtextShadow 2s infinite;
         }
         @keyframes loadingtextShadow {
-          0% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #00bfff, 0 0 30px #00bfff, 0 0 40px #00bfff; }
-          50% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #00bfff, 0 0 30px #00bfff, 0 0 40px #00bfff; }
-          100% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #00bfff, 0 0 30px #00bfff, 0 0 40px #00bfff; }
+          0% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #800080, 0 0 30px #800080, 0 0 40px #800080; }
+          50% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #800080, 0 0 30px #800080, 0 0 40px #800080; }
+          100% { text-shadow: 0 0 5px #ffffff, 0 0 10px #b0e0e6, 0 0 15px #48cae4, 0 0 20px #800080, 0 0 30px #800080, 0 0 40px #800080; }
         }
         #loading-progress {
           width: 200px;
@@ -111,7 +112,7 @@
         }
         #loading-progress-bar {
           height: 100%;
-          background: linear-gradient(to right, #00bfff, #b0e0e6);
+          background: linear-gradient(to right, #800080, #b0e0e6);
           border-radius: 5px;
           transition: width 0.3s;
           width: 0;
@@ -121,7 +122,7 @@
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          color: white;
+          color: magenta;
           font-size: 12px;
         }
         #loading-progress-message {
@@ -129,7 +130,7 @@
           top: 80%;
           left: 50%;
           transform: translate(-50%, -50%);
-          color: white;
+          color: magenta;
           font-size: 14px;
         }
         .image-container {
@@ -166,9 +167,7 @@
             top: 50%;
             right: 10px;
             transform: translateY(-50%);
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
+            font-size: 26px;           
         }
         .like-button:hover {
             color: red;
@@ -204,9 +203,17 @@
     </div>
 
     <div id="profile" class="page">
+        <p>Лайнутые посты:</p>
         <div class="liked-images">
             <!-- Liked images will be dynamically added here -->
         </div>
+    </div>
+    
+    <div id="nullbutton" class="page">
+        <p>Добро пожаловать,надеюсь вас порадуют мои рисунки</p>
+        <p>Если захотите заказать арт,то в закреплённых сообщениях канала (t.me/feyillustration) есть подробная информация</p>
+            <p>мой ТГ: @Feyyyy999</p>
+            <p>Inst: fey.illustration</p>
     </div>
     <script>
         const tgwindow = window.Telegram.WebApp;
@@ -222,6 +229,7 @@
             if (loadingProgress >= 100) {
                 clearInterval(loadingInterval);
                 document.getElementById('loading-screen').style.display = 'none';
+                document.querySelector('.nav-buttons').style.display = 'flex'; /* Показать кнопки навигации после загрузки */
             }
         }, 100);
 
@@ -238,9 +246,12 @@
         });
 
         const images = [
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/1729448605244.jpg', title: 'Мой любимый Феликс❤️' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/1728927267224.jpg', title: 'Крипипаста🔥' },
-            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/1728901130958.jpg', title: 'Твис🌹' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205834_936.jpg', title: 'Мой любимый Феликс❤️' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205843_012.jpg', title: 'Крипипаста🔥' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205847_274.jpg', title: 'Твис🌹' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205856_541.jpg', title: 'Курай' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205307_728.jpg', title: 'Бая' },
+            { url: 'https://raw.githubusercontent.com/0x2171/FeyaIllustrations/refs/heads/main/IMG_20241024_205903_027.jpg', title: 'Перс от t.me/pitsaspivomeballl' },
         ];
 
         const imageContainer = document.querySelector('.image-container');
@@ -257,13 +268,28 @@
             }
         });
 
+        const cachedImages = JSON.parse(localStorage.getItem('cachedImages')) || {};
+
         images.forEach(image => {
             const imageItem = document.createElement('div');
             imageItem.classList.add('image-item');
 
             const img = document.createElement('img');
-            img.src = image.url;
+            img.src = cachedImages[image.url] || image.url;
             img.alt = image.title;
+
+            if (!cachedImages[image.url]) {
+                fetch(image.url)
+                    .then(response => response.blob())
+                    .then(blob => {
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            cachedImages[image.url] = reader.result;
+                            localStorage.setItem('cachedImages', JSON.stringify(cachedImages));
+                        };
+                        reader.readAsDataURL(blob);
+                    });
+            }
 
             const title = document.createElement('div');
             title.classList.add('title');
